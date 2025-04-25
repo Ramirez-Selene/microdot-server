@@ -1,5 +1,3 @@
-from machine import Pin, i2c
-import ssd1306
 def connect_to(ssid : str, passwd : str) -> None:
     """Conecta el microcontrolador a la red indicada.
 
@@ -20,12 +18,6 @@ def connect_to(ssid : str, passwd : str) -> None:
         sta_if.connect(ssid, passwd)
         while not sta_if.isconnected():
             sleep(.05)
-    return sta_if.ifconfig()[0]
-ip_adress = connect_to(Cooperadora_Alumnos, "")
-print("IP:", ip_adress)
-i2c = I2C(0, scl=Pin(22), sda=Pin(21))
-oled = ssd1306.SSD1306_I2C(128, 32, i2c)
-oled.fill(0)
-oled.txt("IP:", 0, 0)
-oled.txt(ip_adress, 0, 10)
-oled.show()
+    return sta_if.ifconfig()
+        
+print(connect_to("Cooperadora_Alumnos", "")[0])
