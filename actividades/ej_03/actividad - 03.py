@@ -47,7 +47,7 @@ def index(req):
             <p>Estado del buzzer: <span id="buzzer-status">--</span></p>
         </main>
         <footer>
-            <p>Joaquin Granata 7° 2° Avionica Comisión A - 2025</p>
+            <p>Ramirez Selene - 2025</p>
         </footer>
         <script>
             const setpointSlider = document.getElementById("setpoint");
