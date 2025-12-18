@@ -1,1 +1,1 @@
-print("Sistema iniciado...")
+print("Iniciando sistema de control de temperatura...")
