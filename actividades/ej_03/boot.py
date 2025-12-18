@@ -1,1 +1,5 @@
-print("Iniciando sistema de control de temperatura...")
+print("=" * 50)
+print("ACTIVIDAD #03 - CONTROL DE TEMPERATURA")
+print("Sistema de monitoreo y control térmico")
+print("=" * 50)
+print("Iniciando sistema...")
