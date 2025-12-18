@@ -2,60 +2,54 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Actividad #03 - Control de Temperatura</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>
     <header>
         <h1>Actividad #03 - Control de Temperatura</h1>
     </header>
     <main>
-        <label for="setpoint">Temperatura Objetivo: 
-            <span id="setpoint-value">25</span> °C
-        </label><br>
-        <input type="range" id="setpoint" min="0" max="30" value="25">
         
-        <p>Temperatura actual: <span id="temp-actual">--</span> °C</p>
-        <p>Estado del buzzer: <span id="buzzer-status">--</span></p>
+        <div class="control-container">
+            <div class="control-section">
+                <label for="setpoint">Temperatura Objetivo: 
+                    <span id="setpoint-value">25</span> °C
+                </label>
+                <input type="range" id="setpoint" min="0" max="30" value="25" step="0.5">
+            </div>
+            
+            <div class="data-section">
+                <div class="data-card">
+                    <h3>Temperatura Actual</h3>
+                    <div class="temp-display" id="temp-actual">-- °C</div>
+                </div>
+                
+                <div class="data-card">
+                    <h3>Estado del Buzzer</h3>
+                    <div class="buzzer-display" id="buzzer-status">Esperando datos...</div>
+                </div>
+            </div>
+            
+            <div class="info-section">
+                <h3>Información del Sistema</h3>
+                <p>• Sensor: LM35 en GPIO 35</p>
+                <p>• Buzzer: GPIO 26</p>
+                <p>• Actualización: 2 segundos</p>
+            </div>
+        </div>
     </main>
     <footer>
-        <p>Ramirez Selene - 7° 2° - 2025</p>
         <p>Representación Frontal y Visual de Datos</p>
-        <p>Computadoras de Aeronaves - Prof. Carlassara Fabrizio</p>
+        <p>Computadoras de Aeronaves</p>
+        <p>Alumno: Ramirez Selene</p>
+        <p>Prof. Carlassara Fabrizio</p>
+        <p id="fecha"></p>
     </footer>
     
-    <script>
-        const setpointSlider = document.getElementById("setpoint");
-        const setpointValue = document.getElementById("setpoint-value");
-        const tempActual = document.getElementById("temp-actual");
-        const buzzerStatus = document.getElementById("buzzer-status");
-
-        setpointSlider.addEventListener("input", () => {
-            setpointValue.textContent = setpointSlider.value;
-        });
-
-        setpointSlider.addEventListener("change", () => {
-            fetch("/setpoint", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ setpoint: parseFloat(setpointSlider.value) })
-            });
-        });
-
-        async function actualizarDatos() {
-            try {
-                const res = await fetch("/estado");
-                const data = await res.json();
-                tempActual.textContent = data.temp;
-                buzzerStatus.textContent = data.buzzer ? "Activo" : "Inactivo";
-            } catch (err) {
-                tempActual.textContent = "Error";
-                buzzerStatus.textContent = "Error";
-            }
-        }
-
-        setInterval(actualizarDatos, 2000);
-        actualizarDatos();
-    </script>
+    <script src="scripts/base.js"></script>
+    <script src="scripts/index.js"></script>
 </body>
 </html>
