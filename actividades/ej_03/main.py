@@ -23,6 +23,7 @@ def controlar_buzzer(temp, ref):
     global buzzer_status
     buzzer_status = temp > ref
     buzzer.value(buzzer_status)
+
 @app.route('/')
 def index(req):
     return send_file('index.html')
@@ -46,7 +47,7 @@ def estado(req):
     global last_temp
     last_temp = leer_temperatura()
     controlar_buzzer(last_temp, setpoint)
-    return {'temp': last_temp, 'buzzer': buzzer_status}
+    return {'temp': last_temp, 'buzzer': buzzer_status, 'setpoint': setpoint}
 
 async def loop_sensor():
     while True:
@@ -57,7 +58,7 @@ async def loop_sensor():
 
 async def main():
     asyncio.create_task(loop_sensor())
-    app.run(debug=True)
+    app.run(debug=True, port=80)
 
 if __name__ == '__main__':
     asyncio.run(main())
