@@ -2,23 +2,60 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Actividad #</title>
-    <link rel="stylesheet" href="styles/base.css">
+    <title>Actividad #03 - Control de Temperatura</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <h1>Actividad #</h1>
+        <h1>Actividad #03 - Control de Temperatura</h1>
     </header>
     <main>
+        <label for="setpoint">Temperatura Objetivo: 
+            <span id="setpoint-value">25</span> °C
+        </label><br>
+        <input type="range" id="setpoint" min="0" max="30" value="25">
+        
+        <p>Temperatura actual: <span id="temp-actual">--</span> °C</p>
+        <p>Estado del buzzer: <span id="buzzer-status">--</span></p>
     </main>
     <footer>
+        <p>Ramirez Selene - 7° 2° - 2025</p>
         <p>Representación Frontal y Visual de Datos</p>
-        <p>Computadoras de Aeronaves</p>
-        <p>Alumno XX</p>
-        <p>Prof. Carlassara Fabrizio</p>
-        <p id="fecha"></p>
+        <p>Computadoras de Aeronaves - Prof. Carlassara Fabrizio</p>
     </footer>
-    <script src="scripts/base.js"></script>
+    
+    <script>
+        const setpointSlider = document.getElementById("setpoint");
+        const setpointValue = document.getElementById("setpoint-value");
+        const tempActual = document.getElementById("temp-actual");
+        const buzzerStatus = document.getElementById("buzzer-status");
+
+        setpointSlider.addEventListener("input", () => {
+            setpointValue.textContent = setpointSlider.value;
+        });
+
+        setpointSlider.addEventListener("change", () => {
+            fetch("/setpoint", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ setpoint: parseFloat(setpointSlider.value) })
+            });
+        });
+
+        async function actualizarDatos() {
+            try {
+                const res = await fetch("/estado");
+                const data = await res.json();
+                tempActual.textContent = data.temp;
+                buzzerStatus.textContent = data.buzzer ? "Activo" : "Inactivo";
+            } catch (err) {
+                tempActual.textContent = "Error";
+                buzzerStatus.textContent = "Error";
+            }
+        }
+
+        setInterval(actualizarDatos, 2000);
+        actualizarDatos();
+    </script>
 </body>
 </html>
