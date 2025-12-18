@@ -1,4 +1,3 @@
-# Aplicacion del servidor
 from microdot import Microdot, Response, send_file 
 from machine import Pin, ADC
 import time
